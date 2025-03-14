@@ -25,16 +25,13 @@ class Node:
         self.data = data
         self.next = None
 
-# lista enlazada
 class ListaEnlazada:
     def __init__(self):
         self.cabeza = None
 
-    # Verificar si la lista está vacía
     def es_vacio(self):
         return self.cabeza is None
 
-    # Agregar Nodo
     def agregar_nodo(self, dato):
         nodo = Node(dato)
         if self.es_vacio():
@@ -45,7 +42,6 @@ class ListaEnlazada:
                 nodo_actual = nodo_actual.next
             nodo_actual.next = nodo
 
-    # Eliminar Nodo
     def eliminar(self, dato):
         nodo_actual = self.cabeza
         if nodo_actual.data == dato:
@@ -57,7 +53,6 @@ class ListaEnlazada:
                 return
             nodo_actual = nodo_actual.next
 
-    # Imprimir Lista
     def imprimir(self):
         nodo_actual = self.cabeza
         while nodo_actual is not None:
@@ -66,7 +61,7 @@ class ListaEnlazada:
 
     def ordenar(self):
         if not self.cabeza or not self.cabeza.next:
-            return  # Lista vacía o con un solo nodo (ordenada)
+            return
 
         current = self.cabeza
         while current:
@@ -93,7 +88,6 @@ class ListaEnlazada:
 
                 searcher = searcher.next
 
-            # Intercambiar valores
             current.data, min_node.data = min_node.data, current.data
             current = current.next
       
@@ -108,44 +102,55 @@ class Tarea():
         self.fechaDeVencimiento = fechaDeVencimiento
         Tarea.tareas.agregar_nodo(self)
         
-
     def __str__ (self):
-        return f"Descripciom: {self.descripcion}; Prioridad: {self.prioridad}; Fecha De Vencimiento: {self.fechaDeVencimiento}"
+        return f"Descripción: {self.descripcion}; Prioridad: {self.prioridad}; Fecha De Vencimiento: {self.fechaDeVencimiento}"
 
 
 while (True):
 
-    print("Sistema de gestion de tareas")
-
-    print("1. Agregar tarea")
-    print("2. Eliminar una tarea")
-    print("3. Mostrar tareas")
-    print("4. Buscar y finalizar tareas")
+    print("\nSISTEMA DE GESTIÓN DE TAREAS")
+    print("\n¿Qué acción desea realizar?")
+    print("1. Agregar tarea.")
+    print("2. Eliminar una tarea.")
+    print("3. Mostrar tareas.")
+    print("4. Buscar y finalizar tareas.")
+    print("5. Salir.")
     print("")
     opcion = int(input("Ingrese la opcion que desee: "))
 
     if opcion == 1:
 
-        descripcion = input("Ingrese la descripcion de la tarea: ")
-        prioridad = input("Ingrese la prioridad de la tarea (1 Alto - 3 Bajo)")
-        fechaVencimiento = input("Ingrese fecha de vencimiento (DD/MM/AAAA): ")
+        descripcion = input("\nIngrese la descripcion de la tarea: ")
+        prioridad = input("\nIngrese la prioridad de la tarea (1 Alta - 2 Media - 3 Baja): ")
+
+        while prioridad != None:
+            if int(prioridad) > 0 and int(prioridad) < 4:
+                True
+            else:
+                print("\nOpción invalida, intente nuevamente.")
+                prioridad = input("\nIngrese la prioridad de la tarea (1 Alta - 2 Media - 3 Baja): ")
+            break
+        
+        
+        fechaVencimiento = input("ingrese la fecha de vecimiento de la tarea (DD/MM/AAA): ")
+
 
         tarea = Tarea(descripcion, prioridad, fechaVencimiento)
 
-        print("Tarea creada con exito")
+        print("\n¡¡¡Tarea creada con exito!!!")
 
 
     elif opcion == 2:
         
-        print("Como desea eliminar de la lista")
-        print("1. por descripcion ")
-        print("2. por indice")
+        print("\n¿Cómo desea eliminar de la lista?")
+        print("1. por descripcion.")
+        print("2. por indice.")
         opcion2 = int(input())
 
      
         if opcion2 == 1 and not(Tarea.tareas.es_vacio()):
 
-            des = input("Ingrese la descripcion de la tarea")
+            des = input("\nIngrese la descripcion de la tarea: ")
 
             temp = Tarea.tareas.cabeza
             elemento = None
@@ -161,15 +166,15 @@ while (True):
             if elemento != None:
 
                Tarea.tareas.eliminar(elemento)
-               print("Se elimino el elemento elegido")
+               print("\n¡Tarea eliminada con éxito!")
             else:
 
-                print(f"No se encontro la tarea con descripcion: {des}")
+                print(f"\nNo se encontró la tarea con descripcion: {des}, intente nuevamente.")
 
         
         elif opcion2 == 2 and not(Tarea.tareas.es_vacio()):
             
-            indice = int(input("Ingrese la posicion del elemento"))
+            indice = int(input("\nIngrese la posicion de la tarea: "))
             temp = Tarea.tareas.cabeza
             elemento = None 
             i = 1   
@@ -184,10 +189,10 @@ while (True):
             if elemento != None:
 
                Tarea.tareas.eliminar(elemento)
-               print("Se elimino el elemento elegido")
+               print("\n¡Tarea eliminada con éxito!")
             else:
 
-                print(f"No se encontro la tarea con indice: {indice}")
+                print(f"\nNo se encontró ninguna tarea registrada con el indice: {indice}, intente nuevamente.")
 
 
     elif opcion == 3:
@@ -197,7 +202,7 @@ while (True):
 
     elif opcion == 4:
 
-        des = input("Ingrese la descripcion de la tarea")
+        des = input("\nIngrese la descripción de la tarea: ")
 
         temp = Tarea.tareas.cabeza
         elemento = None
@@ -213,13 +218,24 @@ while (True):
         if elemento != None:
 
             print(elemento)
-            opcion = int(input("Desea marcar la tarea como hecha? \n1. Si \n2. No"))
+            opcion = int(input("\nDesea marcar la tarea como hecha? \n1. Si. \n2. No.\n"))
 
             if opcion == 1:
 
                 Tarea.tareas.eliminar(elemento)
+                print("\nTarea finalizada con éxito, ¡Felicidades!")
+            
+            elif opcion == 2:
+                print("\nEntendido, no se finalizó la tarea.")
                 
 
         else:
 
-            print(f"No se encontro la tarea con descripcion: {des}")
+            print(f"\nNo se encontro la tarea con descripcion: {des}, intente nuevamente.")
+    
+    elif opcion == 5:
+        print("\nSaliendo del sistema, ¡Hasta pronto!")
+        break
+
+    else:
+        print("\nOpcion incorrecta, intente nuevamente.")
